@@ -1,0 +1,91 @@
+{% extends "mysnowpackapp/base.html" %}
+{% load tethys_gizmos %}
+
+{% block header_buttons %}
+  <div class="header-button glyphicon-button" data-toggle="tooltip" data-placement="bottom" title="Help">
+    <a data-toggle="modal" data-target="#help-modal"><span class="glyphicon glyphicon-question-sign"></span></a>
+  </div>
+{% endblock %}
+
+{% block app_content %}
+
+<style>
+body{background-color: lightgrey}
+h1{text-align: center;color: black;}
+  html, body, #viewDiv {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  width: 100%;
+}
+</style>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+<style>
+body {margin:0;}
+.icon-bar {
+    width: 100%;
+    background-color: #555;
+    overflow: auto;
+}
+.icon-bar a {
+    float: left;
+    width: 20%;
+    text-align: center;
+    padding: 12px 0;
+    transition: all 0.3s ease;
+    color: white;
+    font-size: 36px;
+}
+.icon-bar a:hover {
+    background-color: #000;
+}
+.active {
+    background-color: #4CAF50 !important;
+}
+</style>
+
+  <h1><div style="text-align: center">Snowpack Viewer <i class="fa fa-cloud" style="font-size:45px;color:lightblue;text-shadow:2px 2px 4px #000000;"></i> </h1>
+  <h6><div style="text-align: center">Jason Biesinger
+  <br><div style="text-align: center">CE EN 514
+  <br><div style="text-align: center">2/27/2018
+  <br><div style="text-align: center">Assignment: Add your ArcMap map to a Tethys App</h6>
+
+<hr>
+<h2><div style="text-align: center">Proposal</h2>
+<p>
+
+</p>
+
+{% endblock %}
+
+{# Use the after_app_content block for modals #}
+{% block after_app_content %}
+  <!-- Example Modal -->
+  <div class="modal fade" id="help-modal" tabindex="-1" role="dialog" aria-labelledby="help-modal-label">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h5 class="modal-title" id="help-modal-label">Example Modal</h5>
+        </div>
+        <div class="modal-body">
+          <p>You can add custom buttons to the app header using the <code>header_buttons</code> block. Use anchor/link tags for the button and wrap it in a div with the class <code>header-button</code>. For buttons with the gliphyicons, add the <code>glyphicon-button</code> class as well.</p>
+          <p>Ever have trouble using a modal in a Tethys app? Use the <code>after_app_content</code> block for modal content to allow them to function properly. See: <a href="https://getbootstrap.com/javascript/#modals">Bootstrap Modals</a></p>
+          <p>Add tooltips to any element by adding the <code>data-toggle</code>, <code>data-placement</code>, and <code>title</code> attributes to the button. See: <a href="https://getbootstrap.com/javascript/#tooltips">Bootstrap Tooltips</a></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block app_actions %}
+
+{% endblock %}

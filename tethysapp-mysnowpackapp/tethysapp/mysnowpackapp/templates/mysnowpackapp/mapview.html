@@ -1,0 +1,234 @@
+{% extends "mysnowpackapp/base.html" %}
+{% load tethys_gizmos %}
+
+{% block header_buttons %}
+  <div class="header-button glyphicon-button" data-toggle="tooltip" data-placement="bottom" title="Help">
+    <a data-toggle="modal" data-target="#help-modal"><span class="glyphicon glyphicon-question-sign"></span></a>
+  </div>
+{% endblock %}
+
+{% block app_content %}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+
+<body>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+<style>
+body {margin:0;}
+.icon-bar {
+    width: 100%;
+    background-color: #555;
+    overflow: auto;
+}
+.icon-bar a {
+    float: left;
+    width: 20%;
+    text-align: center;
+    padding: 12px 0;
+    transition: all 0.3s ease;
+    color: white;
+    font-size: 36px;
+}
+.icon-bar a:hover {
+    background-color: #000;
+}
+.active {
+    background-color: #4CAF50 !important;
+
+}
+</style>
+
+  <h1><div style="text-align: center">Snowpack Viewer <i class="fa fa-cloud" style="font-size:45px;color:lightblue;text-shadow:2px 2px 4px #000000;"></i> </h1>
+  <h6><div style="text-align: center">Jason Biesinger
+  <br><div style="text-align: center">CE EN 514
+  <br><div style="text-align: center">2/27/2018
+  <br><div style="text-align: center">Assignment: Add your ArcMap map to a Tethys App</h6>
+
+<hr>
+
+<div>
+  <h2>Choose a Region to View:</h2>
+</div>
+<form>
+  <fieldset>
+    <label>
+      Regions:
+    </label>
+    <select id="myRegion" name="myRegion" onchange="changeMap(this.value)">
+      <option value="None">Select a Region</option>
+      <option value="Utah">Utah County</option>
+      <option value="SLC">Salt Lake County</option>
+      <option value="Davis">Davis County</option>
+    </select>
+  </fieldset>
+</form>
+<div id="map"></div>
+
+
+View Utah DEM <input type="checkbox" checked="true" id="UtahDEM" onclick="showHide()">
+<br>
+View Snotel Stations <input type="checkbox" checked="true" id="SnotelNetwork" onclick="showHide()">
+
+
+<style>
+body{background-color: lightgrey}
+p{text-align: center;color: black;}
+h1{text-align: center;color: black;}
+  html, body, #viewDiv {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  width: 100%;
+}
+#viewDiv {
+  height: 600px;
+  }
+</style>
+
+<link rel="stylesheet" href="https://js.arcgis.com/4.6/esri/css/main.css">
+<script src="https://js.arcgis.com/4.6/"></script>
+
+<script>
+var map;
+var Snotel_Network;
+var Utah_DEM;
+var featureLayer;
+
+require([
+  "esri/Map",
+  "esri/layers/MapImageLayer",
+  "esri/views/MapView",
+  "esri/layers/FeatureLayer",
+  "dojo/domReady!"
+], function(Map, MapImageLayer, MapView, FeatureLayer) {
+  map = new Map({
+    basemap: "hybrid"
+  });
+  Snotel_Network = new MapImageLayer({
+  	url: "http://geoserver2.byu.edu/arcgis/rest/services/The_SnowMen_FS/Snotel_Network/MapServer"
+  });
+  var Utah_Counties = new MapImageLayer({
+  	url: "http://geoserver2.byu.edu/arcgis/rest/services/The_SnowMen/Utah_Counties/MapServer"
+  });
+  Utah_DEM = new MapImageLayer({
+  	url: "http://geoserver2.byu.edu/arcgis/rest/services/The_SnowMen/Utah_DEM/MapServer"
+  });
+  var Utah_State = new MapImageLayer({
+  	url: "http://geoserver2.byu.edu/arcgis/rest/services/The_SnowMen/Utah_State/MapServer"
+  });
+  featureLayer = new FeatureLayer({
+  	url: "http://geoserver2.byu.edu/arcgis/rest/services/The_SnowMen_FS/Snotel_Network/MapServer",
+    outFields: ["*"],
+    popupTemplate: template
+  });
+
+map.layers.add(Utah_DEM);
+map.layers.add(Utah_Counties);
+map.add(featureLayer);
+
+  var view = new MapView({
+      container: "viewDiv",
+      map: map,
+      center: [-111.1, 39.1],
+      zoom: 7
+  });
+});
+
+
+var template = {
+	title: "{name} Station",
+	content: "<p><b>{county} County</b></p>" +
+    "<p>Snotel Station ID# {id}</p>" +
+    "<ul><li>Latitude: {latitude}</li>" +
+    "<li>Longitude: {longitude}</li>" +
+    "<li>Elevation: {elevation_} feet</li><ul>",
+  fieldInfos: [{
+    fieldName: "latitude",  // The field whose values you want to format
+    format: {
+      digitSeparator: false, // Uses a comma separator in numbers >999
+      places: 5 // Sets the number of decimal places to 0 and rounds up
+    }
+  }, {
+    fieldName: "longitude",  // The field whose values you want to format
+    format: {
+      digitSeparator: false, // Uses a comma separator in numbers >999
+      places: 5 // Sets the number of decimal places to 0 and rounds up
+    }
+  }, {
+    fieldName: "elevation_",  // The field whose values you want to format
+    format: {
+      digitSeparator: true, // Uses a comma separator in numbers >999
+      places: 0 // Sets the number of decimal places to 0 and rounds up
+    }
+  }]
+};
+
+featureLayer.popupTemplate = template;
+
+
+function showHide() {
+Utah_DEM.visible = false;
+featureLayer.visible = false;
+	if(document.getElementById('UtahDEM').checked)
+    {
+      Utah_DEM.visible = true;
+    }
+	if(document.getElementById('SnotelNetwork').checked)
+    {
+      featureLayer.visible = true;
+    }
+}
+
+
+</script>
+
+
+</head>
+
+
+<body>
+  <div id="viewDiv"></div>
+</body>
+</html>
+
+
+
+
+
+
+{% endblock %}
+
+{# Use the after_app_content block for modals #}
+{% block after_app_content %}
+  <!-- Example Modal -->
+  <div class="modal fade" id="help-modal" tabindex="-1" role="dialog" aria-labelledby="help-modal-label">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h5 class="modal-title" id="help-modal-label">Example Modal</h5>
+        </div>
+        <div class="modal-body">
+          <p>You can add custom buttons to the app header using the <code>header_buttons</code> block. Use anchor/link tags for the button and wrap it in a div with the class <code>header-button</code>. For buttons with the gliphyicons, add the <code>glyphicon-button</code> class as well.</p>
+          <p>Ever have trouble using a modal in a Tethys app? Use the <code>after_app_content</code> block for modal content to allow them to function properly. See: <a href="https://getbootstrap.com/javascript/#modals">Bootstrap Modals</a></p>
+          <p>Add tooltips to any element by adding the <code>data-toggle</code>, <code>data-placement</code>, and <code>title</code> attributes to the button. See: <a href="https://getbootstrap.com/javascript/#tooltips">Bootstrap Tooltips</a></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block app_actions %}
+
+{% endblock %}
