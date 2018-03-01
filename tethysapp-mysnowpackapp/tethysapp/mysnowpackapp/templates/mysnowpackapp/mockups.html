@@ -1,5 +1,6 @@
 {% extends "mysnowpackapp/base.html" %}
 {% load tethys_gizmos %}
+{% load staticfiles %}
 
 {% block header_buttons %}
   <div class="header-button glyphicon-button" data-toggle="tooltip" data-placement="bottom" title="Help">
@@ -57,6 +58,15 @@ body {margin:0;}
 <hr>
 <h2><div style="text-align: center">Mockup Diagrams</h2>
 <p>
+
+  <img src="{% static '/mysnowpackapp/images/Mockup1.png/' %}">
+  <img src="{% static '/mysnowpackapp/images/Mockup2.png/' %}">
+  <img src="{% static '/mysnowpackapp/images/Mockup3.png/' %}">
+  <img src="{% static '/mysnowpackapp/images/Mockup4.png/' %}">
+  <img src="{% static '/mysnowpackapp/images/Mockup5.png/' %}">
+  <img src="{% static '/mysnowpackapp/images/Mockup6.png/' %}">
+  <img src="{% static '/mysnowpackapp/images/Mockup7.png/' %}">
+  <img src="{% static '/mysnowpackapp/images/Mockup8.png/' %}">
 
 </p>
 

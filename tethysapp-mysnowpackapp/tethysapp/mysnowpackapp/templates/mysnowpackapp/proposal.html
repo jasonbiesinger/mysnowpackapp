@@ -1,5 +1,8 @@
 {% extends "mysnowpackapp/base.html" %}
+
 {% load tethys_gizmos %}
+
+{% load staticfiles %}
 
 {% block header_buttons %}
   <div class="header-button glyphicon-button" data-toggle="tooltip" data-placement="bottom" title="Help">
@@ -56,9 +59,14 @@ body {margin:0;}
 
 <hr>
 <h2><div style="text-align: center">Proposal</h2>
-<p>
 
-</p>
+
+<img src="{% static '/mysnowpackapp/images/Proposal1.png/' %}">
+<img src="{% static '/mysnowpackapp/images/Proposal2.png/' %}">
+<img src="{% static '/mysnowpackapp/images/Proposal3.png/' %}">
+<img src="{% static '/mysnowpackapp/images/Proposal4.png/' %}">
+<img src="{% static '/mysnowpackapp/images/Proposal5.png/' %}">
+
 
 {% endblock %}
 
