@@ -1,6 +1,7 @@
 {% extends "mysnowpackapp/base.html" %}
 {% load tethys_gizmos %}
 
+
 {% block header_buttons %}
   <div class="header-button glyphicon-button" data-toggle="tooltip" data-placement="bottom" title="Help">
     <a data-toggle="modal" data-target="#help-modal"><span class="glyphicon glyphicon-question-sign"></span></a>
@@ -9,12 +10,6 @@
 
 {% block app_content %}
 
-
-<!DOCTYPE html>
-<html>
-<head>
-
-<body>
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -56,19 +51,10 @@ body {margin:0;}
 <div>
   <h2>Choose a Region to View:</h2>
 </div>
-<form>
-  <fieldset>
-    <label>
-      Regions:
-    </label>
-    <select id="myRegion" name="myRegion" onchange="changeMap(this.value)">
-      <option value="None">Select a Region</option>
-      <option value="Utah">Utah County</option>
-      <option value="SLC">Salt Lake County</option>
-      <option value="Davis">Davis County</option>
-    </select>
-  </fieldset>
-</form>
+
+
+{% gizmo select_input %}
+
 <div id="map"></div>
 
 
@@ -190,17 +176,18 @@ featureLayer.visible = false;
 </script>
 
 
-</head>
+
 
 
 <body>
   <div id="viewDiv"></div>
 </body>
-</html>
 
+<h1>Change in Snowpack Over Time</h1>
+{% gizmo plotly_view_input %}
 
-
-
+<h1>Time Series Plot</h1>
+{% gizmo timeseries_plot %}
 
 
 {% endblock %}

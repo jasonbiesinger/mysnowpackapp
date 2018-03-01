@@ -53,6 +53,11 @@ class Mysnowpackapp(TethysAppBase):
                 url='mysnowpackapp/mockups',
                 controller='mysnowpackapp.controllers.mockups'
             ),
+            UrlMap(
+                name='addregions',
+                url='mysnowpackapp/addregions',
+                controller='mysnowpackapp.controllers.addregions'
+            ),
 
         )
 
